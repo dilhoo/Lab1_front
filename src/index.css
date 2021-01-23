@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+}
+
+input.number {
+  width: 70px;
+}
+input.text, input.date {
+  width: 110px;
+}
+
+td.button-col {
+  width: 120px;
+}
+
+.content-sec {
+  margin-top: 30px;
+}
+
+td.name {
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

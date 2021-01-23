@@ -1,0 +1,20 @@
+.tabs-sec {
+  display: flex;
+  justify-content: center;
+}
+
+.tab {
+  min-width: 200px;
+  text-align: center;
+  padding: 20px 10px;
+  margin: 0px 10px;
+}
+
+.tab:hover {
+  background: #e1f5fe;
+  cursor: pointer;
+}
+
+.tab.selected {
+  background: #b3e5fc;
+}
