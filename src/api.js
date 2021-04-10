@@ -6,21 +6,7 @@ import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "./defaults";
 const axios = create({
   baseURL: "http://localhost:8088",
   timeout: 2000,
-  validateStatus: status => status < 500,
-  transformResponse: (data) => {
-    try {
-      return JSON.parse(data).map(vehicle => {
-        const { year, month, day } = vehicle.creationDate.date;
-        const creationDate = new Date(year, month - 1, day).toLocaleDateString("ru-RU");
-        return {
-          ...vehicle,
-          creationDate
-        };
-      });
-    } catch (e) {
-      return data;
-    }
-  }
+  validateStatus: status => status < 500
 });
 
 function stubSuccess(data) {
@@ -94,11 +80,11 @@ export default {
     data: vehicle
   }),
   delete: id => axios.request({
-    url: "/vehicle?id=" + id,
+    url: "/vehicle/" + id,
     method: "delete"
   }),
   update: vehicle => axios.request({
-    url: "/vehicle?id=" + vehicle.id,
+    url: "/vehicle/" + vehicle.id,
     method: "put",
     data: vehicle
   }),
@@ -112,6 +98,14 @@ export default {
   }),
   findEnginePowerToCount: () => axios.request({
     url: "/vehicle/engine_power_to_count",
+    method: "get"
+  }),
+  searchByType: type => axios.request({
+    url: "/shop/search/by-type/" + type,
+    method: "get"
+  }),
+  searchByEnginePower: (from, to) => axios.request({
+    url: "/shop/search/by-engine-power/" + from + "/" + to,
     method: "get"
   })
 }

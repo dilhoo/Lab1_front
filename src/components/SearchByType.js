@@ -1,12 +1,12 @@
-import "./css/NameSubsequence.css";
-
 import React from "react";
 
 import ItemRow from "./ItemRow";
 
 import Api from "../api";
 
-class NameSubsequence extends React.Component {
+import { TYPES } from "../types";
+
+class SearchByType extends React.Component {
 
   constructor(props) {
     super(props);
@@ -19,20 +19,29 @@ class NameSubsequence extends React.Component {
   }
 
   find = (event) => {
-    var value = "";
+    var value = TYPES[0];
     if (event) {
       value = event.target.value;
     }
     Api
-      .filterByNameSubsequence(value)
+      .searchByType(value)
       .then(res => {
-        if (res.status === 200) {
+	const status = res.status;
+        if (status === 200) {
           this.setState({ vehicles: res.data });
-        } else {
-          alert(res.data);
+        } else if (status === 500) {
+          alert("Internal server error");
         }
       })
       .catch(err => console.log(err));
+  }
+
+  createTypesSelect() {
+    return (
+      <select onChange={this.find}>
+	{TYPES.map(it => <option value={it}>{it}</option>)}
+      </select>
+    );
   }
 
   createItemRows() {
@@ -41,11 +50,11 @@ class NameSubsequence extends React.Component {
 
   render() {
     return (
-      <div className="NameSubsequence content-sec">
-        <div className="input-sec">
-          <label for="value">Search</label>
-          <input id="value" onChange={this.find}/>
-        </div>
+      <div className="content-sec">
+	<div className="input-sec">
+	  <label for="value">Type</label>
+	  {this.createTypesSelect()}
+	</div>
         <table className="table">
         <thead>
           <tr>
@@ -69,4 +78,4 @@ class NameSubsequence extends React.Component {
   }
 }
 
-export default NameSubsequence;
+export default SearchByType;
